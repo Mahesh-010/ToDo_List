@@ -81,9 +81,9 @@ function Login({ onLogin }) {
     <main className="login-page">
       <section className="login-card" aria-labelledby="login-title">
         <div className="brand-mark" aria-hidden="true">✓</div>
-        <p className="eyebrow">A LITTLE MORE FOCUS</p>
-        <h1 id="login-title">Welcome back</h1>
-        <p className="login-intro">Sign in to make room for what matters.</p>
+        <p className="eyebrow">YOUR ADVENTURE STARTS HERE</p>
+        <h1 id="login-title">Hey, player one!</h1>
+        <p className="login-intro">Sign in and pick your next quest.</p>
         <form onSubmit={handleSubmit} noValidate>
           <label htmlFor="email">Email address</label>
           <input id="email" type="email" autoComplete="username" placeholder="you@example.com" value={email} onChange={(event) => setEmail(event.target.value)} />
@@ -92,9 +92,9 @@ function Login({ onLogin }) {
           {error && <p className="form-error" role="alert">{error}</p>}
           <button className="primary-button login-button" type="submit">Sign in <span aria-hidden="true">→</span></button>
         </form>
-        <div className="demo-note"><span className="demo-dot" /> <span>Demo access<br /><strong>student@example.com</strong> · <strong>password123</strong></span></div>
+        <div className="demo-note"><span className="demo-dot" /> <span>Demo player login<br /><strong>student@example.com</strong> · <strong>password123</strong></span></div>
       </section>
-      <p className="login-footer">Small steps add up.</p>
+      <p className="login-footer">Ready, set, quest! ★</p>
     </main>
   );
 }
@@ -160,22 +160,22 @@ function TodoApp({ todos, setTodos, onLogout }) {
   return (
     <main className="todo-page">
       <header className="topbar">
-        <a className="wordmark" href="#home" aria-label="Daymark home"><span className="brand-mark small" aria-hidden="true">✓</span> daymark</a>
+        <a className="wordmark" href="#home" aria-label="Quest Club home"><span className="brand-mark small" aria-hidden="true">★</span> QUEST CLUB</a>
         <button className="logout-button" onClick={onLogout}>Log out <span aria-hidden="true">↗</span></button>
       </header>
       <section className="todo-content" aria-labelledby="todo-title">
-        <p className="eyebrow date-label">YOUR PERSONAL SPACE</p>
-        <h1 id="todo-title">A clear mind<br />starts <span>here.</span></h1>
-        <p className="todo-subtitle">One thing at a time. You’ve got this.</p>
+        <p className="eyebrow date-label">QUEST BOARD · PLAYER ONE</p>
+        <h1 id="todo-title">Ready for your<br /><span>next quest?</span></h1>
+        <p className="todo-subtitle">Pick a quest. Make progress. Level up!</p>
 
         <form className="add-form" onSubmit={addTodo}>
           <span className="add-icon" aria-hidden="true">+</span>
-          <input aria-label="New todo" placeholder="What needs your attention?" value={newTodo} onChange={(event) => setNewTodo(event.target.value)} />
-          <button className="primary-button add-button" type="submit">Add task <span aria-hidden="true">→</span></button>
+          <input aria-label="New todo" placeholder="Write your next quest..." value={newTodo} onChange={(event) => setNewTodo(event.target.value)} />
+          <button className="primary-button add-button" type="submit">Add quest <span aria-hidden="true">+</span></button>
         </form>
 
         <div className="list-heading">
-          <div><h2>Your tasks</h2><p>{remainingCount === 0 ? 'All clear. Enjoy the breathing room.' : `${remainingCount} ${remainingCount === 1 ? 'thing' : 'things'} left to do`}</p></div>
+          <div><h2>Your quests</h2><p>{remainingCount === 0 ? 'All quests complete. Amazing!' : `${remainingCount} ${remainingCount === 1 ? 'quest' : 'quests'} left to conquer`}</p></div>
           <div className="filters" aria-label="Filter tasks">
             {['All', 'Active', 'Completed'].map((item) => <button key={item} className={filter === item ? 'filter-button selected' : 'filter-button'} onClick={() => setFilter(item)} aria-pressed={filter === item}>{item}</button>)}
           </div>
@@ -183,7 +183,7 @@ function TodoApp({ todos, setTodos, onLogout }) {
 
         <div className="todo-list">
           {visibleTodos.length === 0 ? (
-            <div className="empty-state"><span className="empty-icon" aria-hidden="true">✳</span><p>{todos.length === 0 ? 'Your list is a blank page.' : `No ${filter.toLowerCase()} tasks right now.`}</p><span>{todos.length === 0 ? 'Add a task above and take the first step.' : 'Try another filter to see your tasks.'}</span></div>
+            <div className="empty-state"><span className="empty-icon" aria-hidden="true">★</span><p>{todos.length === 0 ? 'Your quest board is ready!' : `No ${filter.toLowerCase()} quests right now.`}</p><span>{todos.length === 0 ? 'Add your first quest and let the fun begin.' : 'Try another filter to see your quests.'}</span></div>
           ) : visibleTodos.map((todo) => (
             <article className={`todo-row${todo.completed ? ' completed' : ''}`} key={todo.id}>
               <button className="check-button" onClick={() => toggleTodo(todo.id)} aria-label={todo.completed ? `Mark ${todo.title} active` : `Mark ${todo.title} completed`} aria-pressed={todo.completed}>{todo.completed && <span aria-hidden="true">✓</span>}</button>
@@ -204,9 +204,9 @@ function TodoApp({ todos, setTodos, onLogout }) {
             </article>
           ))}
         </div>
-        {todos.some((todo) => todo.completed) && <div className="list-footer"><span>A little progress is still progress.</span><button onClick={() => { setTodos((current) => current.filter((todo) => !todo.completed)); setClearMessage(true); }}>{clearMessage ? 'Completed tasks cleared' : 'Clear completed'}</button></div>}
+        {todos.some((todo) => todo.completed) && <div className="list-footer"><span>Nice work, quest champion! ★</span><button onClick={() => { setTodos((current) => current.filter((todo) => !todo.completed)); setClearMessage(true); }}>{clearMessage ? 'Completed quests cleared' : 'Clear completed'}</button></div>}
       </section>
-      <footer className="page-footer">Made for the things that matter <span>✳</span></footer>
+      <footer className="page-footer">YOU’VE GOT THIS, QUEST CHAMP <span>★</span></footer>
     </main>
   );
 }
