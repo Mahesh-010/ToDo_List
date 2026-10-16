@@ -101,6 +101,9 @@ function Login({ onLogin }) {
 
 function TodoApp({ todos, setTodos, onLogout }) {
   const [newTodo, setNewTodo] = useState('');
+  const [editingId, setEditingId] = useState(null);
+  const [editText, setEditText] = useState('');
+  const [editError, setEditError] = useState('');
   const [filter, setFilter] = useState('All');
   const [clearMessage, setClearMessage] = useState(false);
   const remainingCount = todos.filter((todo) => !todo.completed).length;
@@ -121,7 +124,33 @@ function TodoApp({ todos, setTodos, onLogout }) {
   }
 
   function toggleTodo(id) {
+    setEditingId(null);
+    setEditError('');
     setTodos((current) => current.map((todo) => todo.id === id ? { ...todo, completed: !todo.completed } : todo));
+  }
+
+  function startEditing(todo) {
+    if (todo.completed) return;
+    setEditingId(todo.id);
+    setEditText(todo.title);
+    setEditError('');
+  }
+
+  function saveEdit(event, id) {
+    event.preventDefault();
+    const title = editText.trim();
+    if (!title) {
+      setEditError('A task needs a name.');
+      return;
+    }
+    setTodos((current) => current.map((todo) => todo.id === id && !todo.completed ? { ...todo, title } : todo));
+    setEditingId(null);
+    setEditError('');
+  }
+
+  function cancelEditing() {
+    setEditingId(null);
+    setEditError('');
   }
 
   function deleteTodo(id) {
@@ -158,7 +187,19 @@ function TodoApp({ todos, setTodos, onLogout }) {
           ) : visibleTodos.map((todo) => (
             <article className={`todo-row${todo.completed ? ' completed' : ''}`} key={todo.id}>
               <button className="check-button" onClick={() => toggleTodo(todo.id)} aria-label={todo.completed ? `Mark ${todo.title} active` : `Mark ${todo.title} completed`} aria-pressed={todo.completed}>{todo.completed && <span aria-hidden="true">✓</span>}</button>
-              <span className="todo-title">{todo.title}</span>
+              {editingId === todo.id && !todo.completed ? (
+                <form className="edit-form" onSubmit={(event) => saveEdit(event, todo.id)}>
+                  <input aria-label={`Edit ${todo.title}`} autoFocus value={editText} onChange={(event) => { setEditText(event.target.value); setEditError(''); }} />
+                  {editError && <span className="edit-error" role="alert">{editError}</span>}
+                  <button className="task-action save-action" type="submit">Save</button>
+                  <button className="task-action" type="button" onClick={cancelEditing}>Cancel</button>
+                </form>
+              ) : (
+                <>
+                  <span className="todo-title">{todo.title}</span>
+                  {!todo.completed && <button className="task-action edit-action" type="button" onClick={() => startEditing(todo)} aria-label={`Edit ${todo.title}`}>Edit</button>}
+                </>
+              )}
               <button className="delete-button" onClick={() => deleteTodo(todo.id)} aria-label={`Delete ${todo.title}`} title="Delete task">×</button>
             </article>
           ))}
